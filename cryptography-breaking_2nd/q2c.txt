@@ -1,0 +1,7 @@
+the goal behind the return value
+[+] first we gave in the first argument 1 because it is needed to satisfy
+[+] the first condition for true
+[+] secondly here than here a power in the base of our choice that should
+[+] result in 1 in order to satisfy the second condition so I passwd 1
+[+] to the second argument because in the exponent it will stay 1 and 
+[+] satisfy the second condition and because of the and it will satisfy all
