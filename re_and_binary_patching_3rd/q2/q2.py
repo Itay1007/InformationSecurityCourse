@@ -21,7 +21,6 @@ def patch_program_data(program: bytes) -> bytes:
     opcodes_to_patch2 = list(assemble.assemble_file("patch2.asm"))
     #print(hex(lst_program[specific_jne_relative_position]))
     for i, opcode in enumerate(opcodes_to_patch1):
-        print(f"{hex(deadzone1_position + i)}:{hex(opcode)}")
         lst_program[deadzone1_position + i] = opcode
     for i, opcode in enumerate(opcodes_to_patch2):
         lst_program[deadzone2_position + i] = opcode

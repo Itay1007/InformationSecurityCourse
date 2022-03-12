@@ -23,8 +23,8 @@ lea eax, [ebp - 0x40C]
 # skip the sabeng
 add eax, 2
 push eax
-mov ebx, 0x804A070
-call ebx
+mov ebx, 0x8048460
+call ebx 
 add esp, 4
 # jmp to the end of the printf
 mov ebx, 0x8048651

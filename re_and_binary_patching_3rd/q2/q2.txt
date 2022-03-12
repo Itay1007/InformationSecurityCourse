@@ -1,0 +1,9 @@
+In the long deadlock I did a first jump to the fgets in order to get the 
+[+] first line and than in the other deadlock I jumped to the first
+[+] and there I checked the 2 leading bytes if they are not "#!" which is the
+[+] subeng line I returned to before the printf execution and if the line starts
+[+] "#!" I moved the string pointer to the next char after them and I called to
+[+] system which was included in the file with the remaining string and then I
+[+] jumped to the end of the printf
+[+] I managed to do in each iteration a check for sebang line and if found
+[+] then execution of the command in system instead of the print of the line
