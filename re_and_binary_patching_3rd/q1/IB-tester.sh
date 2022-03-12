@@ -27,6 +27,7 @@ python3 q1c.py 10.msg
 
 echo "[+] Finished test for 1c"
 
+
 rm 0?.msg.fixed
 
 for i in {1..9}
@@ -36,6 +37,16 @@ echo $?
 done
 
 
+./msgcheck.patched 10.msg
+echo $?
+echo "[+] Finished test for 1d"
+
+
+for i in {1..9}
+do
+./msgcheck.patched 0$i.msg
+echo $?
+done
 
 ./msgcheck.patched 10.msg
 echo $?

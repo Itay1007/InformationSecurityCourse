@@ -7,10 +7,10 @@ def patch_program_data(program: bytes) -> bytes:
     :return: The bytes of the patched program.
     """
     lst_program = list(program)
-    specific_jne_relative_position = 0x6cb
+    specific_jne_relative_position = 0x596 # 0x6cb
     # patch the opcode of jne [0x75] to the opcode of jmp [0xE8]
     print(hex(lst_program[specific_jne_relative_position]))
-    lst_program[specific_jne_relative_position] = 0xE8
+    lst_program[specific_jne_relative_position] = 0xF6
     return bytes(lst_program) 
 
 
