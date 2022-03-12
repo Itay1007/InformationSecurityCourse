@@ -1,0 +1,4 @@
+#! pwd
+#! whoami
+#! cat file.txt
+#! echo "echo echo echo"

@@ -10,7 +10,7 @@ def patch_program_data(program: bytes) -> bytes:
     """
     lst_program = list(program)
     specific_jne_relative_position = 0x6DE
-    # patch the opcode of jne [0x75] to the opcode of jmp [0xE8]
+    # patch mov eax, 1 to mov eax, 0
     # print(hex(lst_program[specific_jne_relative_position]))
     lst_program[specific_jne_relative_position] = 0
     return bytes(lst_program)
