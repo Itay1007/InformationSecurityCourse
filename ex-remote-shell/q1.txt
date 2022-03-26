@@ -1,0 +1,8 @@
+I found a stack overflow vulnerability in the insertion of the line from the 
+client to the server buffer. The size of the buffer is 1024 and above it on
+[+] stack there is 4 bytes of int32_t variable and 
+[+] the 4 bytes of the bp and the 4 bytes of the
+[+] return address so 1050 bytes to override on the stack
+[+] are more than enough for the program to jump for an invalid address
+[+] and give us the segmentation fault that we want
+
