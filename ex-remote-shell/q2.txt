@@ -1,0 +1,9 @@
+I used the buffer overflow vulnerability that I found
+[+] in order to create a remote shell execution
+[+] First I created a socket and connected back to my Command and Control Server
+[+] Then I duplicated the STDIN, STDOUT, STDEE, with the  socket file descriptor
+[+] Such that I will get from the connection data as STDIN and send to the
+[+] connection data as STDOUT and STDERR
+[+] Finally I called execute without environment aka exev to open a bash shell
+[+] on the server
+[+] I did a reverse shell and got a remote shell that is controlled by the C&C Server

