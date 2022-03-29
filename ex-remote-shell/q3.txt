@@ -1,0 +1,11 @@
+In order to make the ascii shell code I did a buffer overflow crafted
+[+] nop silde then ascii code to find the start of the ascii shellcode to eax
+[+] then the decoder that xors 0xff of the bytes that encoded with xor of 0xff
+[+] which works because the xor 0xff flips all the bits to the sum of
+[+] encode(x) + x = 0xff while x >= 0x80 and thus encode(x) <= 0x80
+[+] besides I saved the indices that I changed in order to do decode over in run time
+[+] after the decoder decoded the ascii shellcode into the real code
+[+] the ascii shellcode executed means I created a socket and connected to
+[+] the C&C Server then duplicated the file descriptor of the socket into
+[+] STDIN, STDOUT and STDERR and executed the bash on the server
+[+] GOT a remote shell on the server that is controlled by the C&C Server

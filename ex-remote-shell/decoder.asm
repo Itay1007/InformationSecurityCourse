@@ -2,15 +2,54 @@ push 0x100
 pop ebx
 dec ebx
 xor byte ptr [eax + 0], bl
-push 0x100
-pop ebx
-dec ebx
 xor byte ptr [eax + 1], bl
-push 0x100
-pop ebx
-dec ebx
+xor byte ptr [eax + 2], bl
 xor byte ptr [eax + 6], bl
-push 0x100
-pop ebx
-dec ebx
-xor byte ptr [eax + 127], bl
+xor byte ptr [eax + 7], bl
+xor byte ptr [eax + 8], bl
+xor byte ptr [eax + 9], bl
+xor byte ptr [eax + 17], bl
+xor byte ptr [eax + 19], bl
+xor byte ptr [eax + 22], bl
+xor byte ptr [eax + 23], bl
+xor byte ptr [eax + 24], bl
+xor byte ptr [eax + 25], bl
+xor byte ptr [eax + 27], bl
+xor byte ptr [eax + 29], bl
+xor byte ptr [eax + 31], bl
+xor byte ptr [eax + 33], bl
+xor byte ptr [eax + 36], bl
+xor byte ptr [eax + 38], bl
+xor byte ptr [eax + 44], bl
+xor byte ptr [eax + 46], bl
+xor byte ptr [eax + 49], bl
+xor byte ptr [eax + 50], bl
+xor byte ptr [eax + 54], bl
+xor byte ptr [eax + 56], bl
+xor byte ptr [eax + 58], bl
+xor byte ptr [eax + 60], bl
+xor byte ptr [eax + 61], bl
+xor byte ptr [eax + 63], bl
+xor byte ptr [eax + 66], bl
+xor byte ptr [eax + 67], bl
+xor byte ptr [eax + 68], bl
+xor byte ptr [eax + 69], bl
+xor byte ptr [eax + 71], bl
+xor byte ptr [eax + 76], bl
+xor byte ptr [eax + 77], bl
+xor byte ptr [eax + 80], bl
+xor byte ptr [eax + 82], bl
+xor byte ptr [eax + 83], bl
+xor byte ptr [eax + 85], bl
+xor byte ptr [eax + 88], bl
+xor byte ptr [eax + 89], bl
+xor byte ptr [eax + 90], bl
+xor byte ptr [eax + 91], bl
+xor byte ptr [eax + 93], bl
+xor byte ptr [eax + 94], bl
+xor byte ptr [eax + 95], bl
+xor byte ptr [eax + 112], bl
+xor byte ptr [eax + 113], bl
+xor byte ptr [eax + 114], bl
+xor byte ptr [eax + 117], bl
+xor byte ptr [eax + 118], bl

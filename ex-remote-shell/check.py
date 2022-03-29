@@ -66,13 +66,13 @@ def check_encode():
 
 def get_decoder_code(indices: Iterable[int]) -> bytes:
     decoder_code = ""
+    # ascii bytes code that effectivly does:
+    # mov bl, 0xff  
+    decoder_code += "push 0x100" + NEW_LINE
+    decoder_code += "pop ebx" + NEW_LINE
+    decoder_code += "dec ebx" + NEW_LINE
+
     for idx in indices:
-        # ascii bytes code that effectivly does:
-        # mov bl, 0xff
-        decoder_code += "push 0x100" + NEW_LINE
-        decoder_code += "pop ebx" + NEW_LINE
-        decoder_code += "dec ebx" + NEW_LINE
-        # decode the byte with another xor of 0xff
         decoder_code += f"xor byte ptr [eax + {idx}], bl" + NEW_LINE
     with open(DECODER_FILE_PATH, "w") as writer:
         writer.write(decoder_code)
