@@ -1,0 +1,4 @@
+I observed that the decode function does not check the validity of the
+[+] encoded password that it puts from buff[11] and that enables a
+[+] stack overflow in the check password function because above the buff there
+[+] is the buffer and then the ebx, edi, ebp and then the return address

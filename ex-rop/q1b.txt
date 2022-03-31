@@ -1,0 +1,5 @@
+I pathced the return address with libc system return address and added
+[+] above the libc return addres
+[+] then I added above the argument to libc system of "/bin/sh" from the rodata segment which is right after
+[+] I opened a shell as root and the program crashsed in exit because
+[+] I patched virtual address of unpaged virtual page that the program tries to jump to in the return and get a segmentation fault

@@ -1,0 +1,6 @@
+I pathced the return address with libc system return address and added
+[+] above patched libc return address of libc system to be the address of libc exit
+[+] then I added above the argument to libc system of "/bin/sh" from the rodata seg
+[+] then I  added above the argument 1 for exit the EXIT_CODE
+[+] I opened a shell as root and the program and after the program exit from the shell 
+[+] The program exit cleanly with a return value of EXIT_CODE
