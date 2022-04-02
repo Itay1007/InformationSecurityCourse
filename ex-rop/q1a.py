@@ -22,8 +22,7 @@ def get_crash_arg() -> bytes:
     Returns:
          The bytes of the password argument.
     """
-    payload = "A" * (0x8E - 11) + "B" * 4 + "\x11\x22\x33\x44"
-    encoded_payload = payload.encode('latin1')
+    encoded_payload = ("A" * (0x8E - 11) + "B" * 4).encode('latin1') + "\x11\x22\x33\x44".encode('latin1') 
     return encoded_payload
 
 def main(argv):

