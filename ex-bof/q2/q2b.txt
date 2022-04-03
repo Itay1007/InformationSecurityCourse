@@ -1,0 +1,5 @@
+I found the strcat vulnerable function that allowed me to insert to the
+[+] password char * which I control the amount of characters that I want
+[+] and it concatanted to the buffer.
+[+] Because of the big size that I chose I could override the return value
+[+] with the start of my buffer and run my shellcode that calls to execve with interrupt and as the name suggests opens me a high priviledged shell

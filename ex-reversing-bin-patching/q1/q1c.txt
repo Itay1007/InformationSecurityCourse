@@ -1,0 +1,4 @@
+I changed the last value of the sequence of xor values in the file
+[+] to be equal to the xor of all the previous values and the inital value
+[+] with the expected value to be equal to in order to be valid
+[+] in order to get valid file because the xor of all the sequence after  [+] this change will give a valid file the result of the second byte and  [+] if the file is good from start than return this data

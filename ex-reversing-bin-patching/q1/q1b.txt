@@ -1,0 +1,4 @@
+I checked the xor value and if it was not equal to the value 
+[+] of the second byte on the file I changed this value to the xor value
+[+] else I did not change
+[+] In this way all the new files because valid

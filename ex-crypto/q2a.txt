@@ -1,0 +1,7 @@
+the goal is brute force on a small number
+[+] the PIN is a numebr between 0000-9999
+[+] we can brute force it and get the encryption of each one
+[+] because the encryption is a oen to one function as you need to be able
+[+] to decrypt for the message then we know that by comparing the ciphers
+[+] that we get each to the argument we will found an equation and
+[+] than can return the PIN that resulted the equation

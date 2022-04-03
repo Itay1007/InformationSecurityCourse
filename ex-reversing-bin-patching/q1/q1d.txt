@@ -1,0 +1,5 @@
+I changed the compare of the xored sequence with the second byte to a
+[+] compare of the second byte to itself in order to get a tautology and  [+] get that every file is valid by
+[+] meaning I made a binary patching using objdump -d -M intel, google and[+] ida to do
+[+] cmp al, PTR BYTE [ebp - 0x9] to 
+[+] cmp al, PTR BYTE [ebp - 0xA]
