@@ -44,3 +44,13 @@ ORIGIN_RET_ADDR = 0x80488b0
 # function either in the PLT or in libc.
 # USE THIS IN `q4.py`.
 PUTS = 0xb7b7a460
+
+# Start memory address of my shellcodee. You can find the address of this
+# using gdb.
+# USED THIS IN `q4.py`.
+REPEATED_ROP_CHAIN_ADDR = 0xbfffe094
+
+# Start memory address of my shellcode. You can find the address of this
+# using gdb.
+# USED THIS IN `q4.py`.
+MESSAGE_ADDR = 0xbfffe0a8

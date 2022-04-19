@@ -1,0 +1,11 @@
+I used padding before the rop chain that started with the override of the 
+[+] return address
+[+] Got the patched value, then the address to patch and then patched this address
+[+] I implemented 'mov eax, PATCHED_AUTH' WRITE gadget using
+[+] 'pop eax; ret' which is the POP gadget and before on the stack 
+[+] I added addresses.address_to_bytes(PATCHED_AUTH)
+[+] Then I implemented 'mov edi, addresses.AUTH' WRITE gadget using
+[+] 'pop eax; ret' which is the POP gadget and before on the stack 
+[+] I added addresses.AUTH
+[+] In order to override the auth variable I used the gadget of STOSD
+[+] 'stosd; ret'
