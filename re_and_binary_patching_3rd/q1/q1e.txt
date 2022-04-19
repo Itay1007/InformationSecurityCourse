@@ -1,5 +1,0 @@
-I chagned the return value from main which is in eax in the part that
-[+] puts the invalid message from mov eax, 1 into mov eax, 0
-[+] and in the valid message the return value is already 0
-[+] so it anyway 0
-[+] I used ida, google and objdump in order to find the offset and the good opcodes[+] to replace it with

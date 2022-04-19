@@ -1,8 +1,0 @@
-I did brute force on each byto by itself of the key
-[+] so that it will be quick because it is only 2 ** 8 options
-[+] multiplied by min(len(cipher), key_length) \\ 8 + 1
-[+] fast from one side and well from the other becuase
-[+] the xor on the bytes in xor cipher_byte vs key_byte
-[+] so there is no dependencies between different XORs of bytes
-[+] took the score by suming the score of all the bytes in the cipher that use
-[+] this byte for xor because it is more  accurate

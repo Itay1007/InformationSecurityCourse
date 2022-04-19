@@ -1,5 +1,0 @@
-I used itertools.permutations
-[+] to generate all the keys available in the length of key_length.
-[+] Besides, I decrypted each cipher, key pair to get the plaintext
-[+] and saved the plaintext with the maximum score.
-[+] Returned it to be the likeliest plaintext for this cipher

@@ -1,8 +1,0 @@
-I checked the function validate and figured out that 
-[+] validate returns 1 on valid file and 0 on unnvalid file
-[+] than I used hexdump -x on the files and gdb --args ./sigcheck 0X.msg
-[+] and I also used ida to understand that it does the first byte times
-[+] xor of the byte starts from 3rd and continues to refactor a xored
-[+] solution that starts with hardcoded value of 0xD9 and expects
-[+] the result to be equal to the second byte in the file in order
-[+] for the valite to return 1
