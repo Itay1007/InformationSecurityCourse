@@ -1,0 +1,12 @@
+In oreder to implement this evasion 
+[+] I killed the anditvirus program
+[+] First, I found its procees identifier using the "ps aux"
+[+] command from the server that displays processes metadata like pid
+[+] and then I implemented the handler function that gets
+[+] the recieved output of the command from the malware
+[+] so that for each line I checked if the antivirus program is the process
+[+] and if so I splitted and took the pid
+[+] else I returned -1
+[+] If it was -1 then no antivirus program found and else
+[+] I called the evasion function that sends another command from the server
+[+] of f"kill -9 {pid}" that forces a kill of the antivirus program
