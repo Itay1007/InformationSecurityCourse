@@ -1,0 +1,15 @@
+I got the pid of the antivirus using the 'ps aux' and filtering the pid
+[+] also before the running of the server I found the CHECK_IF_VIRUS_CODE
+[+] address of the function 'check_if_virus' also
+[+] the CHECK_IF_VIRUS_GOT address of the got entry for 'check_if_virus' 
+[+] besides CHECK_IF_VIRUS_ALTERNATIVE address of function 'check_if_live_patch'
+[+] and I made a program in C and compiled it beforehand with a global pid
+[+] and got_addr moreover alternative_func_addr in order to do binary patching 
+[+] from the server to the pid of the antivirus, the address of
+[+] the function 'check_if_live-patch' and the got address of 'check_if_virus'
+[+] and inside the C program I used ptrace in order to attach, then change
+[+] the git address of the 'check_if_virus 'to 
+[+] the address of the 'check_if_live_patch'
+[+] Besides the malware is not a live patch
+[+] In order to make an evasion that prevent from the antivirus to catch our
+

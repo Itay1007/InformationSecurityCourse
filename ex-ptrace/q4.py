@@ -21,7 +21,9 @@ class SolutionServer(evasion.EvadeAntivirusServer):
              The bytes of the payload.
         """
         PATH_TO_TEMPLATE = './q4.template'
+        # change to little endian
         pid_in_bytes = addresses.address_to_bytes(pid)
+        # do the binary patching of the globals
         with open(PATH_TO_TEMPLATE, "r+b") as read_writer:
             general_payload = read_writer.read()
 

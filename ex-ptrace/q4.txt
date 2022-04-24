@@ -1,0 +1,11 @@
+I got the pid of the antivirus using the 'ps aux' and filtering the pid
+[+] and I made a program in C and compiled it beforehand with a global pid
+[+] in order to do binary patching from the server to the pid of the antivirus
+[+] and inside the C program I used ptrace in order to attach, then stop the
+[+] antivirus before and after each syscall and if the antivirus stoped before
+[+] 'read' syscall aka eax is 3 then patch the edx that represents length into 0
+[+] in order for the antivirus to not read our malware and therefore
+[+] not get his hash
+[+] In order to make an evasion that prevent from the antivirus to catch our
+[+] malware
+

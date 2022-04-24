@@ -37,7 +37,9 @@ class EvadeAntivirusServer(server.CommandServer):
         pid = NOT_FOUND_ANTIVIRUS_PID
 
         for line in payload.splitlines():
+            # check if this the antivirus process entry
             if ANTIVIRUS_NAME in line:
+                # split the line and get the pid
                 pid = int(line.split()[1])
                 break
         return pid

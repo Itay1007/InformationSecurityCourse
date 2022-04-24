@@ -1,0 +1,10 @@
+I got the pid of the antivirus using the 'ps aux' and filtering the pid
+[+] also before the running of the server I found the CHECK_IF_VIRUS_CODE
+[+] address of the function 'check_if_virus' and I 
+[+] made a program in C and compiled it beforehand with a global pid
+[+] in order to do binary patching from the server to the pid of the antivirus
+[+] and inside the C program I used ptrace in order to attach, then change
+[+] the opcodes in the start of the function that checks the virus to
+[+] 'mov eax, 0; ret'
+[+] In order to make an evasion that prevent from the antivirus to catch our
+[+] malware
